@@ -10,7 +10,7 @@ confy can either be installed through the following package managers or by downl
 
 > [!WARNING] 
 > 
-> This tool isn't on the AUR yet and this part of the documentation is just filler
+> confy isn't on the AUR yet and this part of the documentation is just filler
 
 For Arch use AUR:
 
