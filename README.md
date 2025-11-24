@@ -6,6 +6,12 @@ A simple tool for moving and editing configuration files easily
 
 confy can either be installed through the following package managers or by downloading the package from the releases tab and adding the package to path (or you can always clone and build by yourself)
 
+
+
+> [!WARNING] 
+> 
+> This tool isn't on the AUR yet and this part of the documentation is just filler
+
 For Arch use AUR:
 
 ```bash
