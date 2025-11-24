@@ -6,15 +6,25 @@ import (
 	"os"
 
 	"github.com/charmbracelet/log"
-	"github.com/urfave/cli/v3"
+	"github.com/urfave/cli/v3" 
+
+	"confy/internal/globals"
+	"confy/internal/core"
 )
 
 
 func main() {
+	var confErr error
+	globals.CONFIG_PATH, confErr = core.CheckForGlobalConfigPath()
+	if confErr != nil {
+		log.Warn("Could not detect a global config path!")
+	}
+
+	core.CreateConfyConfigPathIfNotExist()
 	var cmd = cli.Command{
 		Name: "confy", 
 		Usage: "Sort and manage configs easily",
-		Commands: []*cli.Command{commandGetConfigPath(), commandSetConfig()},
+		Commands: []*cli.Command{commandGetConfigPath(), commandSetConfig(), commandGetConfig()},
 	}
 
 	if err := cmd.Run(context.Background(), os.Args); err != nil {
@@ -22,6 +32,18 @@ func main() {
 	}
 }
 
+func commandGetConfig() *cli.Command {
+	return &cli.Command{
+		Name: "get", 
+		Usage: "Get config details",
+		Flags: []cli.Flag{
+			
+		},
+		Action: func(ctx context.Context, c *cli.Command) error {
+			return nil
+		},
+	}
+}
 
 func commandSetConfig() *cli.Command {
 	return &cli.Command{
