@@ -15,12 +15,12 @@ import (
 
 func main() {
 	var confErr error
-	globals.CONFIG_PATH, confErr = core.CheckForGlobalConfigPath()
+	globals.CONFIG_HOME_PATH, confErr = core.CheckForGlobalConfigPath()
 	if confErr != nil {
 		log.Warn("Could not detect a global config path!")
 	}
 
-	core.CreateConfyConfigPathIfNotExist()
+	core.CreateConfyModuleIfNotExist()
 	var cmd = cli.Command{
 		Name: "confy", 
 		Usage: "Sort and manage configs easily",
@@ -35,11 +35,12 @@ func main() {
 func commandGetConfig() *cli.Command {
 	return &cli.Command{
 		Name: "get", 
-		Usage: "Get config details",
+		Usage: "Get module/config details",
 		Flags: []cli.Flag{
 			
 		},
 		Action: func(ctx context.Context, c *cli.Command) error {
+			core.GetModuleDetails(c.Args().Get(0))
 			return nil
 		},
 	}
@@ -48,7 +49,7 @@ func commandGetConfig() *cli.Command {
 func commandSetConfig() *cli.Command {
 	return &cli.Command{
 		Name: "set", 
-		Usage: "Replaces config with new one (and backs up the existing one)",
+		Usage: "Replaces module/config with new one (and backs up the existing one)",
 		Flags: []cli.Flag{
 			&cli.BoolFlag{
 				Name: "no-backup",
@@ -66,7 +67,7 @@ func commandSetConfig() *cli.Command {
 func commandGetConfigPath() *cli.Command {
 	return &cli.Command{
 		Name: "path",
-		Usage: "See current config path",
+		Usage: "See current config home  path",
 		Flags: []cli.Flag{
             &cli.StringFlag{
                 Name:  "set",
@@ -82,14 +83,10 @@ func commandGetConfigPath() *cli.Command {
 				return nil
 			}
 
-			var s, err = os.UserConfigDir()
-			if err != nil {
-				log.Error(err)
-			}
 
-			fmt.Println(s)
+			fmt.Println(globals.CONFIG_HOME_PATH)
 
-			return err
+			return nil
 		},
 	}
 }

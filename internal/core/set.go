@@ -1,6 +1,7 @@
 package core
 
 import (
+	"confy/internal/globals"
 	"fmt"
 	"os"
 	"path"
@@ -8,23 +9,14 @@ import (
 	"github.com/charmbracelet/log"
 )
 
-func ReplaceConfig(configName string, replPath string) error  {
-	var configPath, err  = os.UserConfigDir()
-
-	if err != nil {
-		fmt.Println(err)
-		log.Error("Unable to determine global config path!")
-		return err
-	}
-
-
-	if pathExists(path.Join(configPath, configName)) {
+func ReplaceModule(configName string, replPath string) error  {
+	if pathExists(path.Join(globals.CONFIG_HOME_PATH, configName)) {
 		log.Errorf("Config %v does not exist in configuration path! create one and try again!\n", configName)
 		return fmt.Errorf("Path does not exist")
 	}
 
 	if !pathExists(replPath) {
-		log.Errorf("Invalid config path provided!")
+		log.Errorf("Invalid module path  provided!")
 		return fmt.Errorf("Path does not exist!")
 	}
 

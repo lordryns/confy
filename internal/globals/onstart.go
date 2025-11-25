@@ -1,4 +1,4 @@
 package globals
 
 // initialized in main 
-var CONFIG_PATH string 
+var CONFIG_HOME_PATH string 

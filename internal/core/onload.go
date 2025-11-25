@@ -9,8 +9,8 @@ import (
 )
 
 
-func CreateConfyConfigPathIfNotExist() {
-	var fullPath = path.Join(globals.CONFIG_PATH, "confy")
+func CreateConfyModuleIfNotExist() {
+	var fullPath = path.Join(globals.CONFIG_HOME_PATH, "confy")
 	var _, statErr = os.Stat(fullPath)
 	if !os.IsNotExist(statErr) {
 		return
