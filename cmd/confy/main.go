@@ -4,12 +4,13 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"path/filepath"
 
 	"github.com/charmbracelet/log"
-	"github.com/urfave/cli/v3" 
+	"github.com/urfave/cli/v3"
 
-	"confy/internal/globals"
 	"confy/internal/core"
+	"confy/internal/globals"
 )
 
 
@@ -24,7 +25,7 @@ func main() {
 	var cmd = cli.Command{
 		Name: "confy", 
 		Usage: "Sort and manage configs easily",
-		Commands: []*cli.Command{commandGetConfigPath(), commandSetConfig(), commandGetConfig()},
+		Commands: []*cli.Command{commandGetConfigHomePath(), commandSetConfig(), commandGetConfig()},
 	}
 
 	if err := cmd.Run(context.Background(), os.Args); err != nil {
@@ -64,22 +65,26 @@ func commandSetConfig() *cli.Command {
 	}
 } 
 
-func commandGetConfigPath() *cli.Command {
+func commandGetConfigHomePath() *cli.Command {
 	return &cli.Command{
 		Name: "path",
-		Usage: "See current config home  path",
+		Usage: "See current config home",
 		Flags: []cli.Flag{
             &cli.StringFlag{
                 Name:  "set",
 				Aliases: []string{"s"},
-                Usage: "Set new config path",
+                Usage: "Set a new config home",
             },
 		},
 		Action: func(ctx context.Context, c *cli.Command) error {
 			var res = c.String("set")
 
 			if  len(res) > 0 {
-				log.Infof("Setting new config path to: %v\n", res)
+				if absPath, err := filepath.Abs(res); err != nil {
+					log.Infof("Setting new config path to: %v\n", res)
+				} else {
+					log.Infof("Setting new config path to: %v\n", absPath)
+				}
 				return nil
 			}
 
