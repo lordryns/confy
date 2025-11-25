@@ -32,9 +32,19 @@ Link to the full [Documentation](https://lordryns.github.io)
 
 ## Quick Reference
 
+The command below sets replaces the waybar in the global config path set by the user to the new_waybar (gets renamed to waybar, only contents change) and the old gets backed up
+
 ```bash
 confy set waybar /path/to/new_waybar
 ```
+
+To rollback to the previous config all you have to do is use the rollback command
+
+```bash
+confy rollback waybar
+```
+
+This is just the tip of the iceberg of what confy can really do, here's a link to the full [Documentation](https://lordryns.github.io)
 
 ## Contributing
 
