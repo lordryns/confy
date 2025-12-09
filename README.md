@@ -26,7 +26,7 @@ For Arch use AUR:
 
 Confy uses a module/config system where each file is treated as a config and the folder they are kept in is called a module eg in .config/waybar 'waybar' is the module and the 'config.jsonc' file contained in it is treated as a config.
 
-Link to the full [Documentation](https://lordryns.github.io)
+Link to the full [Documentation](https://lordryns.github.io/project/confy.html)
 
 
 
