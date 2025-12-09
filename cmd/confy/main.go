@@ -25,11 +25,37 @@ func main() {
 	var cmd = cli.Command{
 		Name: "confy", 
 		Usage: "Sort and manage configs easily",
-		Commands: []*cli.Command{commandGetConfigHomePath(), commandSetConfig(), commandGetConfig()},
+		Commands: []*cli.Command{
+			commandGetConfigHomePath(), commandSetConfig(), 
+			commandGetConfig(), commandBackupModule(),
+		},
 	}
 
 	if err := cmd.Run(context.Background(), os.Args); err != nil {
 		log.Fatal(err)
+	}
+}
+
+func commandBackupModule() *cli.Command {
+	return &cli.Command{
+		Name: "backup", 
+		Usage: "Backup a module/config",
+		Flags: []cli.Flag{
+			
+		},
+		Action: func(ctx context.Context, c *cli.Command) error {
+			var arg = c.Args().Get(0)
+			if core.DoesModuleExist(arg) {
+				if core.BackupModule(arg) {
+					log.Info("Backup successful!")
+				} else {
+					log.Error("Backup unsucessful!")
+				}
+			} else {
+				log.Errorf("Unable to backup module '%v': does not exist!", arg)
+			}
+			return nil
+		},
 	}
 }
 

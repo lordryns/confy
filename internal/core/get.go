@@ -4,15 +4,20 @@ import (
 	"confy/internal/globals"
 	"fmt"
 	"os"
-	"path"
+	"path/filepath"
 
 	"github.com/charmbracelet/log"
 )
 
+func DoesModuleExist(module string) bool {
+	var m = filepath.Join(globals.CONFIG_HOME_PATH, module)
+	var _, err = os.Stat(m) 
+	return !os.IsNotExist(err)
+}
 
 func GetModuleDetails(config string) {
 	var globalConfigPath = globals.CONFIG_HOME_PATH
-	var configPath = path.Join(globalConfigPath, config) 
+	var configPath = filepath.Join(globalConfigPath, config) 
 
 	if !pathExists(configPath) {
 		log.Errorf("Unable to find config '%v'", config)
@@ -26,6 +31,10 @@ func GetModuleDetails(config string) {
 	}
 
 	for _, file := range files {
-		fmt.Printf("File: %v\n", file.Name());
+		if file.IsDir() {
+			fmt.Printf("Module: %v\n", file.Name());
+		} else {
+			fmt.Printf("Config: %v\n", file.Name());
+		}
 	}
 }
